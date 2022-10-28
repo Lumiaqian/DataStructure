@@ -157,18 +157,26 @@ func TestLocateElem(t *testing.T) {
 	Convey("Test LocateElem", t, func() {
 		var linkListA List[int]
 		var linkListB List[string]
+		var linkListC List[int]
 		linkListA = *linkListA.InitList()
 		linkListB = *linkListB.InitList()
+		linkListC = *linkListC.InitList()
 		linkListA.RPush(1, 2, 3, 4, 5)
 		linkListB.RPush("a", "b", "c", "d", "e")
+		Convey("The result of LocateElem(param:1) is true", func() {
+			So(linkListA.LocateElem(func(value int) bool { return 1 == value }), ShouldBeTrue)
+		})
 		Convey("The result of LocateElem(param:3) is true", func() {
 			So(linkListA.LocateElem(func(value int) bool { return 3 == value }), ShouldBeTrue)
 		})
 		Convey("The result of LocateElem(param:5) is true", func() {
 			So(linkListA.LocateElem(func(value int) bool { return 5 == value }), ShouldBeTrue)
 		})
-		Convey("The result of LocateElem(param:0) is true", func() {
+		Convey("The result of LocateElem(param:0) is false", func() {
 			So(linkListA.LocateElem(func(value int) bool { return 0 == value }), ShouldBeFalse)
+		})
+		Convey("The result of LocateElem(param:a) is true", func() {
+			So(linkListB.LocateElem(func(value string) bool { return "a" == value }), ShouldBeTrue)
 		})
 		Convey("The result of LocateElem(param:c) is true", func() {
 			So(linkListB.LocateElem(func(value string) bool { return "c" == value }), ShouldBeTrue)
@@ -176,8 +184,11 @@ func TestLocateElem(t *testing.T) {
 		Convey("The result of LocateElem(param:e) is true", func() {
 			So(linkListB.LocateElem(func(value string) bool { return "e" == value }), ShouldBeTrue)
 		})
-		Convey("The result of LocateElem(param:f) is true", func() {
+		Convey("The result of LocateElem(param:f) is false", func() {
 			So(linkListB.LocateElem(func(value string) bool { return "f" == value }), ShouldBeFalse)
+		})
+		Convey("The result of LocateElem(param:0 in empty list) is false", func() {
+			So(linkListC.LocateElem(func(value int) bool { return 0 == value }), ShouldBeFalse)
 		})
 	})
 }
@@ -186,8 +197,10 @@ func TestFindElem(t *testing.T) {
 	Convey("Test FindElem", t, func() {
 		var linkListA List[int]
 		var linkListB List[string]
+		var linkListC List[int]
 		linkListA = *linkListA.InitList()
 		linkListB = *linkListB.InitList()
+		linkListC = *linkListC.InitList()
 		linkListA.RPush(1, 2, 3, 4, 5)
 		linkListB.RPush("a", "b", "c", "d", "e")
 		Convey("The result of FindElem(param:3) is 3", func() {
@@ -207,6 +220,9 @@ func TestFindElem(t *testing.T) {
 		})
 		Convey("The result of FindElem(param:f) is 0", func() {
 			So(linkListB.FindElem(func(value string) bool { return "f" == value }), ShouldEqual, 0)
+		})
+		Convey("The result of FindElem(param:0 in empty list) is 0", func() {
+			So(linkListC.FindElem(func(value int) bool { return 6 == value }), ShouldEqual, 0)
 		})
 	})
 
