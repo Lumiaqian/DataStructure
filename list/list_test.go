@@ -77,15 +77,15 @@ func TestGetElem(t *testing.T) {
 		var linkListB List[string]
 		linkListA = *linkListA.InitList()
 		linkListB = *linkListB.InitList()
-		linkListA.AddElem(5)
+		linkListA.PushFront(5)
 		Convey("The reslut of GetElem should be 5", func() {
-			So(linkListA.GetElem(1), ShouldEqual, 5)
+			So(linkListA.GetElem(1).Value, ShouldEqual, 5)
 		})
-		Convey("The reslut of GetElem should be 0", func() {
-			So(linkListA.GetElem(0), ShouldEqual, 0)
+		Convey("The reslut of GetElem should be nil", func() {
+			So(linkListA.GetElem(0), ShouldBeNil)
 		})
-		Convey("The reslut of GetElem should be empty string", func() {
-			So(linkListB.GetElem(0), ShouldBeEmpty)
+		Convey("The reslut of GetElem should benil", func() {
+			So(linkListB.GetElem(0), ShouldBeNil)
 		})
 	})
 }
@@ -119,35 +119,35 @@ func TestInsert(t *testing.T) {
 	})
 }
 
-func TestAddElem(t *testing.T) {
-	Convey("Test AddElem", t, func() {
+func TestPushFront(t *testing.T) {
+	Convey("Test PushFront", t, func() {
 		var linkListA, linkListB List[int]
 		linkListA = *linkListA.InitList()
 		linkListB = *linkListB.InitList()
 		linkListA.RPush(1, 2, 3, 4)
-		linkListA.AddElem(5)
-		Convey("The result of AddElem:5,1,2,3,4", func() {
+		linkListA.PushFront(5)
+		Convey("The result of PushFront:5,1,2,3,4", func() {
 			So(linkListA.ToSlice(), ShouldResemble, []int{5, 1, 2, 3, 4})
 		})
-		Convey("The result of AddElem in a empty list is 1", func() {
-			linkListB.AddElem(1)
+		Convey("The result of PushFront in a empty list is 1", func() {
+			linkListB.PushFront(1)
 			So(linkListB.ToSlice(), ShouldResemble, []int{1})
 		})
 	})
 }
 
-func TestAppendElem(t *testing.T) {
-	Convey("Test AppendElem", t, func() {
+func TestPushBack(t *testing.T) {
+	Convey("Test PushBack", t, func() {
 		var linkListA, linkListB List[int]
 		linkListA = *linkListA.InitList()
 		linkListB = *linkListB.InitList()
 		linkListA.RPush(1, 2, 3, 4)
-		linkListA.AppendElem(5)
-		Convey("The result of AppendElem:1,2,3,4,5", func() {
+		linkListA.PushBack(5)
+		Convey("The result of PushBack:1,2,3,4,5", func() {
 			So(linkListA.ToSlice(), ShouldResemble, []int{1, 2, 3, 4, 5})
 		})
-		Convey("The result of AppendElem in a empty list is 1", func() {
-			linkListB.AppendElem(1)
+		Convey("The result of PushBack in a empty list is 1", func() {
+			linkListB.PushBack(1)
 			So(linkListB.ToSlice(), ShouldResemble, []int{1})
 		})
 	})
