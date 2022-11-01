@@ -1,21 +1,17 @@
 package doublycircularlinkedlist
 
-type Node[T any] struct {
-	Value T
-	Prev  *Node[T]
-	Next  *Node[T]
-}
+import "datastructure/list"
 
 type List[T any] struct {
-	head *Node[T]
-	tail *Node[T]
+	head *list.DoublyNode[T]
+	tail *list.DoublyNode[T]
 	size int
 }
 
 // 初始化Doubly Circular Linked List detail
 func (l *List[T]) Init() *List[T] {
-	l.head = new(Node[T])
-	l.tail = new(Node[T])
+	l.head = new(list.DoublyNode[T])
+	l.tail = new(list.DoublyNode[T])
 	l.head.Next = l.tail
 	l.tail.Prev = l.head
 	l.head.Prev = l.tail
@@ -43,7 +39,7 @@ func (l *List[T]) IsEmpty() bool {
 }
 
 // 获取头节点
-func (l *List[T]) Front() *Node[T] {
+func (l *List[T]) Front() *list.DoublyNode[T] {
 	if l.IsEmpty() {
 		return nil
 	}
@@ -51,7 +47,7 @@ func (l *List[T]) Front() *Node[T] {
 }
 
 // 获取尾节点
-func (l *List[T]) Back() *Node[T] {
+func (l *List[T]) Back() *list.DoublyNode[T] {
 	if l.IsEmpty() {
 		return nil
 	}
@@ -59,7 +55,7 @@ func (l *List[T]) Back() *Node[T] {
 }
 
 // 获取指定索引上的元素
-func (l *List[T]) Get(index int) *Node[T] {
+func (l *List[T]) Get(index int) *list.DoublyNode[T] {
 	if index <= 0 || index > l.size {
 		return nil
 	}
@@ -81,7 +77,7 @@ func (l *List[T]) Insert(index int, value T) {
 	if index <= 0 || index > l.size+1 {
 		return
 	}
-	node := &Node[T]{Value: value}
+	node := &list.DoublyNode[T]{Value: value}
 	if index == 1 {
 		node.Next = l.head.Next
 		node.Prev = l.head
@@ -113,7 +109,7 @@ func (l *List[T]) Insert(index int, value T) {
 
 // 从头部插入元素
 func (l *List[T]) PushFront(value T) {
-	node := &Node[T]{Value: value}
+	node := &list.DoublyNode[T]{Value: value}
 	node.Next = l.head.Next
 	node.Prev = l.head
 	l.head.Next.Prev = node
@@ -123,7 +119,7 @@ func (l *List[T]) PushFront(value T) {
 
 // 从尾部插入元素
 func (l *List[T]) PushBack(value T) {
-	node := &Node[T]{Value: value}
+	node := &list.DoublyNode[T]{Value: value}
 	l.tail.Prev.Next = node
 	node.Prev = l.tail.Prev
 	node.Next = l.tail

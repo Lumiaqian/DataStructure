@@ -1,21 +1,17 @@
 package doublelinklist
 
-type DoubleNode[T any] struct {
-	Value T
-	Prev  *DoubleNode[T]
-	Next  *DoubleNode[T]
-}
+import "datastructure/list"
 
 type DoubleLinkList[T any] struct {
-	head *DoubleNode[T]
-	tail *DoubleNode[T]
+	head *list.DoublyNode[T]
+	tail *list.DoublyNode[T]
 	size int
 }
 
 // 初始化双向链表
 func (l *DoubleLinkList[T]) Init() *DoubleLinkList[T] {
-	l.head = new(DoubleNode[T])
-	l.tail = new(DoubleNode[T])
+	l.head = new(list.DoublyNode[T])
+	l.tail = new(list.DoublyNode[T])
 	l.head.Next = l.tail
 	l.head.Prev = nil
 	l.tail.Prev = l.head
@@ -43,7 +39,7 @@ func (l *DoubleLinkList[T]) IsEmpty() bool {
 }
 
 // 获取链表头元素
-func (l *DoubleLinkList[T]) Front() *DoubleNode[T] {
+func (l *DoubleLinkList[T]) Front() *list.DoublyNode[T] {
 	if l.size == 0 {
 		return nil
 	}
@@ -51,7 +47,7 @@ func (l *DoubleLinkList[T]) Front() *DoubleNode[T] {
 }
 
 // 获取链表尾元素
-func (l *DoubleLinkList[T]) Back() *DoubleNode[T] {
+func (l *DoubleLinkList[T]) Back() *list.DoublyNode[T] {
 	if l.size == 0 {
 		return nil
 	}
@@ -59,7 +55,7 @@ func (l *DoubleLinkList[T]) Back() *DoubleNode[T] {
 }
 
 // 获取指定索引上的元素
-func (l *DoubleLinkList[T]) Get(index int) *DoubleNode[T] {
+func (l *DoubleLinkList[T]) Get(index int) *list.DoublyNode[T] {
 	if index <= 0 || index > l.size {
 		return nil
 	}
@@ -81,7 +77,7 @@ func (l *DoubleLinkList[T]) Insert(index int, value T) {
 	if index <= 0 || index > l.size+1 {
 		return
 	}
-	node := &DoubleNode[T]{Value: value}
+	node := &list.DoublyNode[T]{Value: value}
 	if index == 1 {
 		node.Next = l.head.Next
 		l.head.Next.Prev = node
@@ -112,7 +108,7 @@ func (l *DoubleLinkList[T]) Insert(index int, value T) {
 
 // 从头部插入元素
 func (l *DoubleLinkList[T]) PushFront(value T) {
-	node := &DoubleNode[T]{Value: value}
+	node := &list.DoublyNode[T]{Value: value}
 	node.Next = l.head.Next
 	node.Prev = l.head
 	l.head.Next.Prev = node
@@ -122,7 +118,7 @@ func (l *DoubleLinkList[T]) PushFront(value T) {
 
 // 从尾部插入元素
 func (l *DoubleLinkList[T]) PushBack(value T) {
-	node := &DoubleNode[T]{Value: value}
+	node := &list.DoublyNode[T]{Value: value}
 	l.tail.Prev.Next = node
 	node.Prev = l.tail.Prev
 	node.Next = l.tail

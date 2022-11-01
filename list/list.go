@@ -2,11 +2,6 @@ package list
 
 import "fmt"
 
-type Node[T any] struct {
-	Value T
-	Next  *Node[T]
-}
-
 type List[T any] struct {
 	Head *Node[T]
 }
