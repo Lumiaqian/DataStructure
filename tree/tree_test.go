@@ -145,3 +145,27 @@ func TestIsAVL(t *testing.T) {
 		})
 	})
 }
+
+func TestIsBST(t *testing.T) {
+	Convey("Test BinaryTree IsBST", t, func() {
+		pre1 := []int{2, 1, 3}
+		in1 := []int{1, 2, 3}
+		pre2 := []int{5, 1, 4, 3, 6}
+		in2 := []int{1, 5, 3, 4, 6}
+		var bst, not_bst BinaryTree[int]
+		Convey("The result of IsBST is true", func() {
+			bst = *bst.New()
+			bst.root = BuildByPreIn(pre1, in1)
+			flag, _ := IsBST(bst.root, bst.root.Value)
+			So(bst.ToSlice(3), ShouldResemble, []int{1, 3, 2})
+			So(flag, ShouldBeFalse)
+		})
+		Convey("The result of IsBST is false", func() {
+			not_bst = *not_bst.New()
+			not_bst.root = BuildByPreIn(pre2, in2)
+			flag, _ := IsBST(not_bst.root, not_bst.root.Value)
+			So(not_bst.ToSlice(3), ShouldResemble, []int{1, 3, 6, 4, 5})
+			So(flag, ShouldBeFalse)
+		})
+	})
+}

@@ -4,6 +4,8 @@ import (
 	"datastructure/queue"
 	"datastructure/util"
 	"math"
+
+	"golang.org/x/exp/constraints"
 )
 
 type Node[T any] struct {
@@ -245,4 +247,24 @@ func (t *BinaryTree[T]) IsAVL() bool {
 		}
 	}
 	return check(t.root).IsBalanced
+}
+
+/*
+* 二叉搜索树：每一个子树，左节点比根节点小，右节点比根节点大的二叉树，二叉树的节点无重复值
+*判断方法：
+*  中序（递归中序或者非递归中序均可）遍历二叉树，如果是升序的即为搜索二叉树。
+ */
+func IsBST[T constraints.Ordered](root *Node[T], value T) (bool, T) {
+	if root == nil {
+		return true, value
+	}
+	left, _ := IsBST(root.Left, value)
+	if !left {
+		return false, value
+	}
+	if root.Value <= value {
+		return false, value
+	}
+	value = root.Value
+	return IsBST(root.Right, value)
 }
