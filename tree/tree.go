@@ -2,6 +2,8 @@ package tree
 
 import (
 	"datastructure/queue"
+	"datastructure/util"
+	"math"
 )
 
 type Node[T any] struct {
@@ -133,4 +135,114 @@ func BuildByPostIn[T comparable](post, in []T) *Node[T] {
 	root.Left = BuildByPostIn(post[:i], in[:i+1])
 	root.Right = BuildByPostIn(post[i:len(post)-1], in[i+1:])
 	return root
+}
+
+// 获取二叉树深度
+func (t *BinaryTree[T]) Depth() int {
+	return t.root.depth()
+}
+
+func (n *Node[T]) depth() int {
+	if n == nil {
+		return 0
+	}
+	return util.Max(n.Left.depth(), n.Right.depth()) + 1
+}
+
+/*
+*
+*满二叉树：如果二叉树中除了叶子结点，每个结点的度都是2，则是满二叉树
+*性质：
+*	满二叉树中第 i 层的节点数为 2^i - 1 个。
+*	深度为k的满二叉树必有 2k-1 个节点 ，叶子数为 2k-1。
+*	满二叉树中不存在度为 1 的节点，每一个分支点中都两棵深度相同的子树，且叶子节点都在最底层。
+*	具有 n 个节点的满二叉树的深度为 log2(n+1)。
+*
+* 判断方法： 左子树为满二叉树且右子树为满二叉树
+ */
+func (t *BinaryTree[T]) IsFBT() bool {
+	return t.root.isFBT()
+}
+
+func (n *Node[T]) isFBT() bool {
+	if n == nil {
+		return true
+	}
+	if !n.Left.isFBT() {
+		return false
+	}
+	if (n.Left == nil && n.Right != nil) || (n.Left != nil && n.Right == nil) {
+		return false
+	}
+	return n.Right.isFBT()
+}
+
+/*
+* 完全二叉树 : 如果二叉树中除去最后一层节点为满二叉树，且最后一层的结点依次从左到右分布，则此二叉树被称为完全二叉树。
+* 判断方法：
+*1.按照层次遍历
+*2.任意一个节点有右子节点无左子节点，则为非完全二叉树
+*3.在条件1不违规的情况下，如果遇到左右子节点不齐全的情况下，后续节点皆为叶子节点，如果后续存在非叶子节点，则为非完全二叉树。
+ */
+func (t *BinaryTree[T]) IsCBT() bool {
+	if t.root == nil {
+		return true
+	}
+	var queue queue.ArrayQueue[Node[T]]
+	var leaf = false //是否遇到左右子节点不齐全的情况
+	queue = *queue.New()
+	queue.Put(*t.root)
+	for queue.Size() > 0 {
+		cur, _ := queue.Pop()
+		l := cur.Left
+		r := cur.Right
+		//如果遇到了不双全的节点后，又发现当前节点有子节点 或者 有右节点但无左节点
+		if (leaf && (l != nil || r != nil)) || (l == nil && r != nil) {
+			return false
+		}
+		if l != nil {
+			queue.Put(*l)
+		}
+		if r != nil {
+			queue.Put(*r)
+		}
+		if l == nil || r == nil {
+			leaf = true
+		}
+	}
+	return true
+}
+
+/*
+* 平衡二叉树 ：对于任何一个子树来说，左树高度和右树高度差不超过1
+* 判断方法：
+* A && B && C
+* A: 左子树为平衡二叉树
+* B: 右子树为平衡二叉树
+* C: abs(左高-右高) <= 1
+ */
+type Data struct {
+	IsBalanced bool
+	Height     int
+}
+
+func (t *BinaryTree[T]) IsAVL() bool {
+	var check func(*Node[T]) *Data
+	check = func(n *Node[T]) *Data {
+		if n == nil {
+			return &Data{
+				IsBalanced: false,
+				Height:     0,
+			}
+		}
+		left := check(n.Left)
+		right := check(n.Right)
+		hight := util.Max(left.Height, right.Height) + 1
+		isBalance := left.IsBalanced && right.IsBalanced && math.Abs(float64(left.Height-right.Height)) <= 1
+		return &Data{
+			IsBalanced: isBalance,
+			Height:     hight,
+		}
+	}
+	return check(t.root).IsBalanced
 }
