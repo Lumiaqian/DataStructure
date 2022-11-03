@@ -2,28 +2,28 @@ package queue
 
 const defaultVolume = 10
 
-type ArratQueue[T any] struct {
+type ArrayQueue[T any] struct {
 	elems []T
 }
 
-// 初始化队
-func (s *ArratQueue[T]) Init() *ArratQueue[T] {
+// 初始化队列
+func (s *ArrayQueue[T]) Init() *ArrayQueue[T] {
 	s.elems = make([]T, 0, defaultVolume)
 	return s
 }
 
-// 初始化队
-func (s *ArratQueue[T]) New() *ArratQueue[T] {
-	return new(ArratQueue[T]).Init()
+// 初始化队列
+func (s *ArrayQueue[T]) New() *ArrayQueue[T] {
+	return new(ArrayQueue[T]).Init()
 }
 
 // 将数据放入队列尾部
-func (s *ArratQueue[T]) Put(e T) {
+func (s *ArrayQueue[T]) Put(e T) {
 	s.elems = append(s.elems, e)
 }
 
 // 取出对头元素并删除，第二返回值表示当前队是否为空
-func (s *ArratQueue[T]) Pop() (T, bool) {
+func (s *ArrayQueue[T]) Pop() (T, bool) {
 	var value T
 	if len(s.elems) == 0 {
 		return value, true
@@ -34,7 +34,7 @@ func (s *ArratQueue[T]) Pop() (T, bool) {
 }
 
 // 取出队头元素，第二返回值表示当前队是否为空
-func (s *ArratQueue[T]) Top() (T, bool) {
+func (s *ArrayQueue[T]) Top() (T, bool) {
 	var value T
 	if len(s.elems) == 0 {
 		return value, true
@@ -44,6 +44,6 @@ func (s *ArratQueue[T]) Top() (T, bool) {
 }
 
 // 获取队大小
-func (s *ArratQueue[T]) Size() int {
+func (s *ArrayQueue[T]) Size() int {
 	return len(s.elems)
 }

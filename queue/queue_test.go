@@ -7,8 +7,8 @@ import (
 )
 
 func TestPut(t *testing.T) {
-	Convey("Test ArratQueue Put", t, func() {
-		var queue ArratQueue[int]
+	Convey("Test ArrayQueue Put", t, func() {
+		var queue ArrayQueue[int]
 		queue = *queue.New()
 		queue.Put(1)
 		queue.Put(2)
@@ -20,8 +20,8 @@ func TestPut(t *testing.T) {
 }
 
 func TestPop(t *testing.T) {
-	Convey("Test ArratQueue Pop", t, func() {
-		var queue ArratQueue[int]
+	Convey("Test ArrayQueue Pop", t, func() {
+		var queue ArrayQueue[int]
 		queue = *queue.New()
 		Convey("The result of Pop:2、3,false", func() {
 			queue.Put(1)
@@ -51,10 +51,10 @@ func TestPop(t *testing.T) {
 }
 
 func TestTop(t *testing.T) {
-	Convey("Test ArratQueue Top", t, func() {
-		var queue ArratQueue[int]
+	Convey("Test ArrayQueue Top", t, func() {
+		var queue ArrayQueue[int]
 		queue = *queue.New()
-		var stringqueue ArratQueue[string]
+		var stringqueue ArrayQueue[string]
 		stringqueue = *stringqueue.New()
 		Convey("The result of Top:1,false", func() {
 			queue.Put(1)
@@ -82,8 +82,8 @@ func TestTop(t *testing.T) {
 }
 
 func TestSize(t *testing.T) {
-	Convey("Test ArratQueue Size", t, func() {
-		var queue ArratQueue[int]
+	Convey("Test ArrayQueue Size", t, func() {
+		var queue ArrayQueue[int]
 		queue = *queue.New()
 		Convey("The reslut of Size:0", func() {
 			So(queue.Size(), ShouldEqual, 0)
