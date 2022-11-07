@@ -1,6 +1,8 @@
 package heap
 
-import "golang.org/x/exp/constraints"
+import (
+	"golang.org/x/exp/constraints"
+)
 
 type Heap[T constraints.Ordered] struct {
 	elems []T
@@ -44,3 +46,40 @@ func (h *Heap[T]) Push(value T) {
 }
 
 // 下沉
+func (h *Heap[T]) down(i0, n int) {
+	i := i0
+	for {
+		child := i*2 + 1
+		if child >= n || child < 0 {
+			break
+		}
+		other := child + 1
+		if other < n && h.Less(other, child) {
+			child = other
+		}
+
+		if !h.Less(child, i) {
+			break
+		}
+		h.Swap(i, child)
+		i = child
+	}
+
+}
+
+// Pop
+func (h *Heap[T]) Pop() T {
+	n := h.Len() - 1
+	h.Swap(0, n)
+	h.down(0, n)
+	h.elems = h.elems[:h.Len()-1]
+	return h.elems[h.Len()-1]
+}
+
+// 建堆
+func (h *Heap[T]) Init() {
+	n := h.Len()
+	for i := n/2 - 1; i >= 0; i-- {
+		h.down(i, n)
+	}
+}
