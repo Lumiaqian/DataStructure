@@ -135,7 +135,7 @@ func TestIsAVL(t *testing.T) {
 			avl = *avl.New()
 			avl.root = BuildByPreIn(pre1, in1)
 			So(avl.ToSlice(3), ShouldResemble, []int{9, 15, 7, 20, 3})
-			So(avl.IsAVL(), ShouldBeFalse)
+			So(avl.IsAVL(), ShouldBeTrue)
 		})
 		Convey("The result of IsAVL is false", func() {
 			not_avl = *not_avl.New()

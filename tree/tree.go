@@ -233,7 +233,7 @@ func (t *BinaryTree[T]) IsAVL() bool {
 	check = func(n *Node[T]) *Data {
 		if n == nil {
 			return &Data{
-				IsBalanced: false,
+				IsBalanced: true,
 				Height:     0,
 			}
 		}
