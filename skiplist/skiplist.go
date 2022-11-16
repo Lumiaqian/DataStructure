@@ -42,9 +42,6 @@ func newNode[T constraints.Ordered](value T, score, level int) *Node[T] {
 		level:   level,
 		forward: make([]*Node[T], level),
 	}
-	for i := range node.forward {
-		node.forward[i] = new(Node[T])
-	}
 	return node
 }
 
@@ -76,12 +73,6 @@ func (sl *SkipList[T]) Insert(value T, score int) {
 	newNode := newNode(value, score, level)
 	cur := sl.head
 	updated := make([]*Node[T], level)
-	fmt.Printf("randomLevel:%d \n", level)
-	fmt.Printf("updated length:%d \n", len(updated))
-	fmt.Printf("cur forward length:%d \n", len(cur.forward))
-	fmt.Printf("newNode:%+v \n", newNode)
-	fmt.Printf("cur : %+v \n", cur)
-	fmt.Printf("cur forward[6] : %+v \n", cur.forward[6])
 	for i := level - 1; i >= 0; i-- {
 		for cur.forward[i] != nil {
 			if cur.forward[i].value == value {
@@ -135,12 +126,10 @@ func (sl *SkipList[T]) Delete(value T, score int) {
 	updated := make([]*Node[T], sl.level)
 	// 查找每层得节点
 	for i := sl.level - 1; i >= 0; i-- {
-		for cur.forward[i] != nil {
-			for ; cur.forward[i] != nil && cur.forward[i].score < score; cur = cur.forward[i] {
+		for ; cur.forward[i] != nil && cur.forward[i].score < score; cur = cur.forward[i] {
 
-			}
-			updated[i] = cur
 		}
+		updated[i] = cur
 	}
 	// 遍历每层删除节点
 	for i := 0; i < sl.level; i++ {
@@ -161,7 +150,7 @@ func (sl *SkipList[T]) print() {
 	for i := sl.level; i >= 0; i-- {
 		p := sl.head
 		for ; p != nil; p = p.forward[i] {
-			fmt.Printf("%v->", p.value)
+			fmt.Printf("%v,%v->", p.value, p.score)
 		}
 		fmt.Printf("nil\n")
 	}

@@ -21,6 +21,15 @@ func TestSkipList(t *testing.T) {
 		Convey("The result of Find is true", func() {
 			sl.Insert("heap", 16)
 			So(sl.Find("heap", 16), ShouldBeTrue)
+			So(sl.Find("tree", 19), ShouldBeTrue)
+			So(sl.Find("queue", 25), ShouldBeTrue)
+		})
+		Convey("The result of Find is false", func() {
+			So(sl.Find("heap", 16), ShouldBeFalse)
+			So(sl.Find("lumia", 3), ShouldBeTrue)
+			sl.Delete("lumia", 3)
+			So(sl.Find("lumia", 3), ShouldBeFalse)
+
 		})
 	})
 }
